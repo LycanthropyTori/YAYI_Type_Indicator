@@ -12,9 +12,9 @@ See: .planning/PROJECT.md (updated 2026-04-24)
 
 ## Phase Status
 
-| Phase | Status | Notes |
-|-------|--------|-------|
-| 1 | context_ready | Ready for planning |
+| Phase | Status | Plans | Notes |
+|-------|--------|-------|-------|
+| 1 | planned | 1 plan | Ready to execute |
 
 ---
 
