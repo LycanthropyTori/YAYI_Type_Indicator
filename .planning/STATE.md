@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-04-24)
 | Phase | Status | Plans | Notes |
 |-------|--------|-------|-------|
 | 1 | completed | 1/1 | ✓ | 待修改：去除饮酒触发 + 数据分离 |
-| 2 | planned | 1/0 | - | 结果推荐：左右分栏哲学/玄学推荐 |
+| 2 | completed | 1/1 | ✓ | 左右分栏哲学/玄学推荐 |
 
 ---
 
