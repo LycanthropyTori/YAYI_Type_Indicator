@@ -1,0 +1,332 @@
+[
+  {
+    "id": 1,
+    "model": "Academic",
+    "dimension": "A1",
+    "text": "你学习的动力主要来自？",
+    "options": [
+      { "text": "老师和家长的督促，不得不学", "score": 1 },
+      { "text": "既能享受过程，也在乎结果", "score": 2 },
+      { "text": "真心热爱探索新知识", "score": 3 }
+    ]
+  },
+  {
+    "id": 16,
+    "model": "Academic",
+    "dimension": "A1",
+    "text": "面对一项艰难的学业挑战，你会？",
+    "options": [
+      { "text": "能躲就躲，拖一天是一天", "score": 1 },
+      { "text": "有时候来劲，有时候想放弃", "score": 2 },
+      { "text": "越难越想攻克它", "score": 3 }
+    ]
+  },
+  {
+    "id": 2,
+    "model": "Academic",
+    "dimension": "A2",
+    "text": "面对考试，你的心态是？",
+    "options": [
+      { "text": "经常觉得自己不行，肯定考不好", "score": 1 },
+      { "text": "时而自信时而崩，看状态", "score": 2 },
+      { "text": "对自己的学业能力有底", "score": 3 }
+    ]
+  },
+  {
+    "id": 17,
+    "model": "Academic",
+    "dimension": "A2",
+    "text": "拿到成绩单时，你通常会？",
+    "options": [
+      { "text": "觉得自己就是个废物", "score": 1 },
+      { "text": "好的时候开心，差的时候沮丧", "score": 2 },
+      { "text": "客观分析，继续努力", "score": 3 }
+    ]
+  },
+  {
+    "id": 3,
+    "model": "Academic",
+    "dimension": "A3",
+    "text": "成绩不理想时，你会？",
+    "options": [
+      { "text": "考砸了也无所谓，无感", "score": 1 },
+      { "text": "会难过，但很快就过去", "score": 2 },
+      { "text": "情绪能表达出来，找人倾诉", "score": 3 }
+    ]
+  },
+  {
+    "id": 18,
+    "model": "Academic",
+    "dimension": "A3",
+    "text": "学业压力很大时，你的情绪状态是？",
+    "options": [
+      { "text": "憋着，一个人扛", "score": 1 },
+      { "text": "偶尔崩溃一下", "score": 2 },
+      { "text": "会找渠道发泄出来", "score": 3 }
+    ]
+  },
+  {
+    "id": 4,
+    "model": "Career",
+    "dimension": "C1",
+    "text": "你对职级晋升的态度是？",
+    "options": [
+      { "text": "晋升？摆烂了，没兴趣", "score": 1 },
+      { "text": "有想法但不强烈，顺其自然", "score": 2 },
+      { "text": "强烈想往上爬", "score": 3 }
+    ]
+  },
+  {
+    "id": 19,
+    "model": "Career",
+    "dimension": "C1",
+    "text": "看到同事升职加薪时，你会？",
+    "options": [
+      { "text": "与我无关，继续摸鱼", "score": 1 },
+      { "text": "有点酸，但也不会太在意", "score": 2 },
+      { "text": "暗暗下定决心要超过他", "score": 3 }
+    ]
+  },
+  {
+    "id": 5,
+    "model": "Career",
+    "dimension": "C2",
+    "text": "下班后，你通常会？",
+    "options": [
+      { "text": "还是想着工作，生活就是工作", "score": 1 },
+      { "text": "偶尔想摆，但放不下", "score": 2 },
+      { "text": "工作和生活分得很清", "score": 3 }
+    ]
+  },
+  {
+    "id": 20,
+    "model": "Career",
+    "dimension": "C2",
+    "text": "周末还在处理工作消息时，你的感觉是？",
+    "options": [
+      { "text": "正常，习惯了", "score": 1 },
+      { "text": "有点烦，但还是会回", "score": 2 },
+      { "text": "工作不应该占用休息时间", "score": 3 }
+    ]
+  },
+  {
+    "id": 6,
+    "model": "Career",
+    "dimension": "C3",
+    "text": "和同事产生分歧时，你？",
+    "options": [
+      { "text": "压力很大，不知道怎么办", "score": 1 },
+      { "text": "凑合能处，不想撕破脸", "score": 2 },
+      { "text": "能游刃有余地处理", "score": 3 }
+    ]
+  },
+  {
+    "id": 21,
+    "model": "Career",
+    "dimension": "C3",
+    "text": "职场中和上级的关系，你感觉？",
+    "options": [
+      { "text": "总是小心翼翼，怕出错", "score": 1 },
+      { "text": "还行，保持适当距离", "score": 2 },
+      { "text": "如鱼得水，能自如应对", "score": 3 }
+    ]
+  },
+  {
+    "id": 7,
+    "model": "Family",
+    "dimension": "F1",
+    "text": "父母对你的期望，你感受？",
+    "options": [
+      { "text": "父母期望与我无关", "score": 1 },
+      { "text": "被期望但不觉得沉重", "score": 2 },
+      { "text": "期望感知强，想达成", "score": 3 }
+    ]
+  },
+  {
+    "id": 22,
+    "model": "Family",
+    "dimension": "F1",
+    "text": "逢年过节家庭聚会时，你的感觉是？",
+    "options": [
+      { "text": "压力山大，想逃避", "score": 1 },
+      { "text": "有点应付，但能撑住", "score": 2 },
+      { "text": "享受亲情时光", "score": 3 }
+    ]
+  },
+  {
+    "id": 8,
+    "model": "Family",
+    "dimension": "F2",
+    "text": "回家后，你和父母交流？",
+    "options": [
+      { "text": "跟家里无话可说", "score": 1 },
+      { "text": "偶尔聊聊，不深入", "score": 2 },
+      { "text": "沟通顺畅，什么都说", "score": 3 }
+    ]
+  },
+  {
+    "id": 23,
+    "model": "Family",
+    "dimension": "F2",
+    "text": "遇到烦恼时，你会向家人倾诉吗？",
+    "options": [
+      { "text": "不会，说了他们也不理解", "score": 1 },
+      { "text": "有时候会说一点", "score": 2 },
+      { "text": "会，家人是最信任的人", "score": 3 }
+    ]
+  },
+  {
+    "id": 9,
+    "model": "Family",
+    "dimension": "F3",
+    "text": "关于是否搬出去住，你的想法？",
+    "options": [
+      { "text": "渴望脱离家庭掌控", "score": 1 },
+      { "text": "想独立但还在纠结", "score": 2 },
+      { "text": "目前关系独立自主", "score": 3 }
+    ]
+  },
+  {
+    "id": 24,
+    "model": "Family",
+    "dimension": "F3",
+    "text": "在重大决定上，你和父母的关系是？",
+    "options": [
+      { "text": "我要自己做主，不想听他们的", "score": 1 },
+      { "text": "会听意见，但最终自己决定", "score": 2 },
+      { "text": "愿意和父母商量着来", "score": 3 }
+    ]
+  },
+  {
+    "id": 10,
+    "model": "Intimate",
+    "dimension": "I1",
+    "text": "恋爱中，你经常担心？",
+    "options": [
+      { "text": "担心被抛弃，没有安全感", "score": 1 },
+      { "text": "信任对方但有时也会怀疑", "score": 2 },
+      { "text": "安全感强，相信对方", "score": 3 }
+    ]
+  },
+  {
+    "id": 25,
+    "model": "Intimate",
+    "dimension": "I1",
+    "text": "伴侣没有及时回复消息时，你会？",
+    "options": [
+      { "text": "疯狂发消息确认", "score": 1 },
+      { "text": "等一会儿再生气", "score": 2 },
+      { "text": "相信对方在忙，不多想", "score": 3 }
+    ]
+  },
+  {
+    "id": 11,
+    "model": "Intimate",
+    "dimension": "I2",
+    "text": "感情中，你倾向于？",
+    "options": [
+      { "text": "不想投入太多，怕受伤", "score": 1 },
+      { "text": "投入但留后手", "score": 2 },
+      { "text": "全情投入，无怨无悔", "score": 3 }
+    ]
+  },
+  {
+    "id": 26,
+    "model": "Intimate",
+    "dimension": "I2",
+    "text": "面对一段新感情，你的心态是？",
+    "options": [
+      { "text": "试探着来，不敢太认真", "score": 1 },
+      { "text": "慢慢来，看情况", "score": 2 },
+      { "text": "遇到对的就会全力以赴", "score": 3 }
+    ]
+  },
+  {
+    "id": 12,
+    "model": "Intimate",
+    "dimension": "I3",
+    "text": "伴侣要求看手机，你会？",
+    "options": [
+      { "text": "渴望融合无间，给就给了", "score": 1 },
+      { "text": "既要独立也要亲密", "score": 2 },
+      { "text": "边界清晰，这是我的隐私", "score": 3 }
+    ]
+  },
+  {
+    "id": 27,
+    "model": "Intimate",
+    "dimension": "I3",
+    "text": "在亲密关系中，你更看重？",
+    "options": [
+      { "text": "两个人完全融为一体", "score": 1 },
+      { "text": "亲密和独立都要有", "score": 2 },
+      { "text": "保持各自的独立性", "score": 3 }
+    ]
+  },
+  {
+    "id": 13,
+    "model": "Inner",
+    "dimension": "IN1",
+    "text": "你心里想要的东西，通常会？",
+    "options": [
+      { "text": "想要啥都不说，憋着", "score": 1 },
+      { "text": "偶尔说出来", "score": 2 },
+      { "text": "能坦然表达自己的欲望", "score": 3 }
+    ]
+  },
+  {
+    "id": 28,
+    "model": "Inner",
+    "dimension": "IN1",
+    "text": "在餐厅点餐时，你会？",
+    "options": [
+      { "text": "随便，看别人点什么", "score": 1 },
+      { "text": "有时候会迁就别人", "score": 2 },
+      { "text": "直接点自己想吃的", "score": 3 }
+    ]
+  },
+  {
+    "id": 14,
+    "model": "Inner",
+    "dimension": "IN2",
+    "text": "强烈的情绪涌上来时，你？",
+    "options": [
+      { "text": "情绪全憋着，压下去", "score": 1 },
+      { "text": "时而压抑时而放飞", "score": 2 },
+      { "text": "情绪流动，能释放出来", "score": 3 }
+    ]
+  },
+  {
+    "id": 29,
+    "model": "Inner",
+    "dimension": "IN2",
+    "text": "生气的时候，你一般会？",
+    "options": [
+      { "text": "一个人闷着，不发作", "score": 1 },
+      { "text": "看情况，有时候会爆发", "score": 2 },
+      { "text": "会找合适的方式表达", "score": 3 }
+    ]
+  },
+  {
+    "id": 15,
+    "model": "Inner",
+    "dimension": "IN3",
+    "text": "闲暇时，你会？",
+    "options": [
+      { "text": "刷手机打发时间", "score": 1 },
+      { "text": "看看书、听听音乐放松", "score": 2 },
+      { "text": "冥想或静坐", "score": 3 }
+    ]
+  },
+  {
+    "id": 30,
+    "model": "Inner",
+    "dimension": "IN3",
+    "text": "一天结束后，你会复盘吗？",
+    "options": [
+      { "text": "不想复盘，懒得想", "score": 1 },
+      { "text": "偶尔会想想", "score": 2 },
+      { "text": "经常反思和总结", "score": 3 }
+    ]
+  }
+]

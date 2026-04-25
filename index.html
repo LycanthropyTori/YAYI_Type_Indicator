@@ -611,638 +611,12 @@
   </div>
 
   <script>
-    // ===== Questions Data =====
-    const questions = [
-      // Academic - A1学习动机 (Q1, Q16)
-      {
-        id: 1,
-        model: 'Academic',
-        dimension: 'A1',
-        text: '你学习的动力主要来自？',
-        options: [
-          { text: '老师和家长的督促，不得不学', score: 1 },
-          { text: '既能享受过程，也在乎结果', score: 2 },
-          { text: '真心热爱探索新知识', score: 3 }
-        ]
-      },
-      {
-        id: 16,
-        model: 'Academic',
-        dimension: 'A1',
-        text: '面对一项艰难的学业挑战，你会？',
-        options: [
-          { text: '能躲就躲，拖一天是一天', score: 1 },
-          { text: '有时候来劲，有时候想放弃', score: 2 },
-          { text: '越难越想攻克它', score: 3 }
-        ]
-      },
-      // Academic - A2学业自我效能 (Q2, Q17)
-      {
-        id: 2,
-        model: 'Academic',
-        dimension: 'A2',
-        text: '面对考试，你的心态是？',
-        options: [
-          { text: '经常觉得自己不行，肯定考不好', score: 1 },
-          { text: '时而自信时而崩，看状态', score: 2 },
-          { text: '对自己的学业能力有底', score: 3 }
-        ]
-      },
-      {
-        id: 17,
-        model: 'Academic',
-        dimension: 'A2',
-        text: '拿到成绩单时，你通常会？',
-        options: [
-          { text: '觉得自己就是个废物', score: 1 },
-          { text: '好的时候开心，差的时候沮丧', score: 2 },
-          { text: '客观分析，继续努力', score: 3 }
-        ]
-      },
-      // Academic - A3学业情绪压抑 (Q3, Q18)
-      {
-        id: 3,
-        model: 'Academic',
-        dimension: 'A3',
-        text: '成绩不理想时，你会？',
-        options: [
-          { text: '考砸了也无所谓，无感', score: 1 },
-          { text: '会难过，但很快就过去', score: 2 },
-          { text: '情绪能表达出来，找人倾诉', score: 3 }
-        ]
-      },
-      {
-        id: 18,
-        model: 'Academic',
-        dimension: 'A3',
-        text: '学业压力很大时，你的情绪状态是？',
-        options: [
-          { text: '憋着，一个人扛', score: 1 },
-          { text: '偶尔崩溃一下', score: 2 },
-          { text: '会找渠道发泄出来', score: 3 }
-        ]
-      },
-      // Career - C1晋升欲 (Q4, Q19)
-      {
-        id: 4,
-        model: 'Career',
-        dimension: 'C1',
-        text: '你对职级晋升的态度是？',
-        options: [
-          { text: '晋升？摆烂了，没兴趣', score: 1 },
-          { text: '有想法但不强烈，顺其自然', score: 2 },
-          { text: '强烈想往上爬', score: 3 }
-        ]
-      },
-      {
-        id: 19,
-        model: 'Career',
-        dimension: 'C1',
-        text: '看到同事升职加薪时，你会？',
-        options: [
-          { text: '与我无关，继续摸鱼', score: 1 },
-          { text: '有点酸，但也不会太在意', score: 2 },
-          { text: '暗暗下定决心要超过他', score: 3 }
-        ]
-      },
-      // Career - C2工作生活平衡 (Q5, Q20)
-      {
-        id: 5,
-        model: 'Career',
-        dimension: 'C2',
-        text: '下班后，你通常会？',
-        options: [
-          { text: '还是想着工作，生活就是工作', score: 1 },
-          { text: '偶尔想摆，但放不下', score: 2 },
-          { text: '工作和生活分得很清', score: 3 }
-        ]
-      },
-      {
-        id: 20,
-        model: 'Career',
-        dimension: 'C2',
-        text: '周末还在处理工作消息时，你的感觉是？',
-        options: [
-          { text: '正常，习惯了', score: 1 },
-          { text: '有点烦，但还是会回', score: 2 },
-          { text: '工作不应该占用休息时间', score: 3 }
-        ]
-      },
-      // Career - C3职场人际 (Q6, Q21)
-      {
-        id: 6,
-        model: 'Career',
-        dimension: 'C3',
-        text: '和同事产生分歧时，你？',
-        options: [
-          { text: '压力很大，不知道怎么办', score: 1 },
-          { text: '凑合能处，不想撕破脸', score: 2 },
-          { text: '能游刃有余地处理', score: 3 }
-        ]
-      },
-      {
-        id: 21,
-        model: 'Career',
-        dimension: 'C3',
-        text: '职场中和上级的关系，你感觉？',
-        options: [
-          { text: '总是小心翼翼，怕出错', score: 1 },
-          { text: '还行，保持适当距离', score: 2 },
-          { text: '如鱼得水，能自如应对', score: 3 }
-        ]
-      },
-      // Family - F1家庭期望压力 (Q7, Q22)
-      {
-        id: 7,
-        model: 'Family',
-        dimension: 'F1',
-        text: '父母对你的期望，你感受？',
-        options: [
-          { text: '父母期望与我无关', score: 1 },
-          { text: '被期望但不觉得沉重', score: 2 },
-          { text: '期望感知强，想达成', score: 3 }
-        ]
-      },
-      {
-        id: 22,
-        model: 'Family',
-        dimension: 'F1',
-        text: '逢年过节家庭聚会时，你的感觉是？',
-        options: [
-          { text: '压力山大，想逃避', score: 1 },
-          { text: '有点应付，但能撑住', score: 2 },
-          { text: '享受亲情时光', score: 3 }
-        ]
-      },
-      // Family - F2家庭沟通 (Q8, Q23)
-      {
-        id: 8,
-        model: 'Family',
-        dimension: 'F2',
-        text: '回家后，你和父母交流？',
-        options: [
-          { text: '跟家里无话可说', score: 1 },
-          { text: '偶尔聊聊，不深入', score: 2 },
-          { text: '沟通顺畅，什么都说', score: 3 }
-        ]
-      },
-      {
-        id: 23,
-        model: 'Family',
-        dimension: 'F2',
-        text: '遇到烦恼时，你会向家人倾诉吗？',
-        options: [
-          { text: '不会，说了他们也不理解', score: 1 },
-          { text: '有时候会说一点', score: 2 },
-          { text: '会，家人是最信任的人', score: 3 }
-        ]
-      },
-      // Family - F3家庭独立 (Q9, Q24)
-      {
-        id: 9,
-        model: 'Family',
-        dimension: 'F3',
-        text: '关于是否搬出去住，你的想法？',
-        options: [
-          { text: '渴望脱离家庭掌控', score: 1 },
-          { text: '想独立但还在纠结', score: 2 },
-          { text: '目前关系独立自主', score: 3 }
-        ]
-      },
-      {
-        id: 24,
-        model: 'Family',
-        dimension: 'F3',
-        text: '在重大决定上，你和父母的关系是？',
-        options: [
-          { text: '我要自己做主，不想听他们的', score: 1 },
-          { text: '会听意见，但最终自己决定', score: 2 },
-          { text: '愿意和父母商量着来', score: 3 }
-        ]
-      },
-      // Intimate - I1依恋安全感 (Q10, Q25)
-      {
-        id: 10,
-        model: 'Intimate',
-        dimension: 'I1',
-        text: '恋爱中，你经常担心？',
-        options: [
-          { text: '担心被抛弃，没有安全感', score: 1 },
-          { text: '信任对方但有时也会怀疑', score: 2 },
-          { text: '安全感强，相信对方', score: 3 }
-        ]
-      },
-      {
-        id: 25,
-        model: 'Intimate',
-        dimension: 'I1',
-        text: '伴侣没有及时回复消息时，你会？',
-        options: [
-          { text: '疯狂发消息确认', score: 1 },
-          { text: '等一会儿再生气', score: 2 },
-          { text: '相信对方在忙，不多想', score: 3 }
-        ]
-      },
-      // Intimate - I2情感投入度 (Q11, Q26)
-      {
-        id: 11,
-        model: 'Intimate',
-        dimension: 'I2',
-        text: '感情中，你倾向于？',
-        options: [
-          { text: '不想投入太多，怕受伤', score: 1 },
-          { text: '投入但留后手', score: 2 },
-          { text: '全情投入，无怨无悔', score: 3 }
-        ]
-      },
-      {
-        id: 26,
-        model: 'Intimate',
-        dimension: 'I2',
-        text: '面对一段新感情，你的心态是？',
-        options: [
-          { text: '试探着来，不敢太认真', score: 1 },
-          { text: '慢慢来，看情况', score: 2 },
-          { text: '遇到对的就会全力以赴', score: 3 }
-        ]
-      },
-      // Intimate - I3关系边界感 (Q12, Q27)
-      {
-        id: 12,
-        model: 'Intimate',
-        dimension: 'I3',
-        text: '伴侣要求看手机，你会？',
-        options: [
-          { text: '渴望融合无间，给就给了', score: 1 },
-          { text: '既要独立也要亲密', score: 2 },
-          { text: '边界清晰，这是我的隐私', score: 3 }
-        ]
-      },
-      {
-        id: 27,
-        model: 'Intimate',
-        dimension: 'I3',
-        text: '在亲密关系中，你更看重？',
-        options: [
-          { text: '两个人完全融为一体', score: 1 },
-          { text: '亲密和独立都要有', score: 2 },
-          { text: '保持各自的独立性', score: 3 }
-        ]
-      },
-      // Inner - IN1欲望表达 (Q13, Q28)
-      {
-        id: 13,
-        model: 'Inner',
-        dimension: 'IN1',
-        text: '你心里想要的东西，通常会？',
-        options: [
-          { text: '想要啥都不说，憋着', score: 1 },
-          { text: '偶尔说出来', score: 2 },
-          { text: '能坦然表达自己的欲望', score: 3 }
-        ]
-      },
-      {
-        id: 28,
-        model: 'Inner',
-        dimension: 'IN1',
-        text: '在餐厅点餐时，你会？',
-        options: [
-          { text: '随便，看别人点什么', score: 1 },
-          { text: '有时候会迁就别人', score: 2 },
-          { text: '直接点自己想吃的', score: 3 }
-        ]
-      },
-      // Inner - IN2情感压抑 (Q14, Q29)
-      {
-        id: 14,
-        model: 'Inner',
-        dimension: 'IN2',
-        text: '强烈的情绪涌上来时，你？',
-        options: [
-          { text: '情绪全憋着，压下去', score: 1 },
-          { text: '时而压抑时而放飞', score: 2 },
-          { text: '情绪流动，能释放出来', score: 3 }
-        ]
-      },
-      {
-        id: 29,
-        model: 'Inner',
-        dimension: 'IN2',
-        text: '生气的时候，你一般会？',
-        options: [
-          { text: '一个人闷着，不发作', score: 1 },
-          { text: '看情况，有时候会爆发', score: 2 },
-          { text: '会找合适的方式表达', score: 3 }
-        ]
-      },
-      // Inner - IN3自我反思 (Q15, Q30)
-      {
-        id: 15,
-        model: 'Inner',
-        dimension: 'IN3',
-        text: '闲暇时，你会？',
-        options: [
-          { text: '刷手机打发时间', score: 1 },
-          { text: '看看书、听听音乐放松', score: 2 },
-          { text: '找个安静的角落独自喝点小酒', score: 3 }
-        ]
-      },
-      {
-        id: 30,
-        model: 'Inner',
-        dimension: 'IN3',
-        text: '一天结束后，你会复盘吗？',
-        options: [
-          { text: '不想复盘，懒得想', score: 1 },
-          { text: '偶尔会想想', score: 2 },
-          { text: '经常反思和总结', score: 3 }
-        ]
-      }
-    ];
-
-    // ===== Personality Types Data =====
-    const personalityTypes = [
-      // 学业组 (5)
-      {
-        name: '学者',
-        group: '学业组',
-        pattern: 'HHHHH-HHHHH-HHHHH-HHHHH-HHHHH',
-        intro: '你就是那个传说中的学霸，对知识有着纯粹的热爱。',
-        desc: '内在驱动、真心热爱、情绪表达流畅、自我反思强。你是那种会为了理解一个概念熬夜到凌晨三点的人。学业对你来说不是负担，而是乐趣来源。你享受解决难题时的快感，享受获得新知的满足。你的学习动机完全来自内部，不需要外部奖惩。你对自己的学业能力有清晰的认知，相信努力会有回报。情绪低落时你能找到合适的方式宣泄，不会让负面情绪影响太久。'
-      },
-      {
-        name: '学酥',
-        group: '学业组',
-        pattern: 'HMHMH-MHMHM-MHMHM-MHMHM-MHMHM',
-        intro: '你时而是学霸，时而摸鱼，属于弹性玩家。',
-        desc: '状态波动大时而自信时而崩。你有潜力，只是不够稳定。考试前一周你可能是学霸，假期回来就变学渣。你的自我效能感不稳定，一阵觉得自己能上清华，一阵觉得自己连毕业都悬。这种波动让你的学业生活像过山车，但也许这就是青春的味道。找到你的节奏，你也能成为学霸。'
-      },
-      {
-        name: '学渣',
-        group: '学业组',
-        pattern: 'LLLLL-LLLLL-LLLLL-LLLLL-LLLLL',
-        intro: '学习？摆烂了，谢谢。',
-        desc: '被动应付、觉得自己是废物、情绪压抑。你对学业完全提不起兴趣，只想安静地当一条咸鱼。翻开课本就犯困，考试作弊是你最认真的时刻。学习对你来说是一种折磨，不是因为难，而是因为真的不想学。你习惯了否定自己，觉得自己不是学习的料。其实你只是没找到感兴趣的方向而已。'
-      },
-      {
-        name: '学历焦虑者',
-        group: '学业组',
-        pattern: 'HHLHH-HHLHH-HHLHH-HHLHH-HHLHH',
-        intro: '你在学历赛道卷生卷死，但内心焦虑不安。',
-        desc: '对学业能力有信心，但情绪容易压抑。你在意外界评价，总觉得自己还不够好。学历是你的执念，你疯狂考证、刷绩点、考研，但内心的焦虑感从未消失。你害怕被超越，害怕失败，害怕让别人失望。夜深人静时你会想：我这么拼，到底是为了什么？但第二天醒来，你又开始了新一轮的卷。'
-      },
-      {
-        name: '学术混子',
-        group: '学业组',
-        pattern: 'MMMMM-MMMMM-MMMMM-MMMMM-MMMMM',
-        intro: '你是那种及格万岁、多一分浪费的混子。',
-        desc: '内外动机混合、时而自信时而崩。学业对你来说就是一份差事，不求有功，但求无过。你深谙60分哲学，知道怎么用最小的力气混过每一门课。作业能抄就抄，论文能拖就拖。你不是不会，只是不想太努力。这样的你其实挺轻松的，只是偶尔会想：我这辈子就这样了吗？'
-      },
-      // 职场组 (5)
-      {
-        name: '卷王',
-        group: '职场组',
-        pattern: 'HHHHH-HHHHH-HHHHH-HHHHH-HHHHH',
-        intro: '你就是那个让同事害怕的卷王。',
-        desc: '晋升欲极强、工作生活分不清、职场如鱼得水。你是那种下班后还在工作、周末还在学习的人。你把KPI当成游戏积分，把晋升当作打怪升级。别人在摸鱼时你在汇报工作，别人在休假时你在研究行业报告。你享受这种卷的感觉，因为它让你感到充实。只是别忘了，偶尔也要停下来休息一下。'
-      },
-      {
-        name: '摸鱼大师',
-        group: '职场组',
-        pattern: 'LLLLL-LLLLL-LLLLL-LLLLL-LLLLL',
-        intro: '摸鱼是门艺术，你是艺术家。',
-        desc: '摆烂了没兴趣、生活就是工作。在职场中你只想安静地当一条咸鱼，不想卷也不想升。带薪上厕所是你的日常，电鬃纵物是你的人生哲学。你把摸鱼技能修炼到炉火纯青的境界，能在领导眼皮底下刷手机而不被发现。你不是不努力，只是觉得努力没有意义而已。'
-      },
-      {
-        name: '996幸存者',
-        group: '职场组',
-        pattern: 'HMHMH-MHMHM-MHMHM-MHMHM-MHMHM',
-        intro: '你已经习惯了996，甚至有点享受其中。',
-        desc: '弹性工作者有想法但不强烈。你是那种被996虐过但还活着的人，对工作生活平衡已经麻木。你的生活就是工作，工作就是生活。周末加班对你来说是常态，法定节假日加班是你的荣耀。你偶尔会想起以前还有双休的日子，但那种记忆已经很模糊了。'
-      },
-      {
-        name: '职场透明人',
-        group: '职场组',
-        pattern: 'MLLML-MLLML-MLLML-MLLML-MLLML',
-        intro: '你就是那个在会议上不会被点名的人。',
-        desc: '不想投入太多、生活和work分不清。职场中你是个隐形人，不求升职加薪，只求安稳下班。你在公司的存在感极低，低到突然消失一周都没人发现。你不参与办公室政治，不站队不八卦，完成自己的工作就好。这样的你在职场中反而活得最长。'
-      },
-      {
-        name: '晋升机器',
-        group: '职场组',
-        pattern: 'HHHHH-MMMMH-MMMMH-MMMMH-MMMMH',
-        intro: '你就是那个永不停歇的晋升机器。',
-        desc: '晋升欲极强但职场人际一般。你是那种埋头苦干等着被看见的人。你相信是金子总会发光的，所以一直在默默发光。你把精力都放在了工作上，忽略了人际关系的经营。这样的你很容易遇到天花板——明明业绩很好，但晋升的总是别人。'
-      },
-      // 家庭组 (5)
-      {
-        name: '家族担当者',
-        group: '家庭组',
-        pattern: 'HHHHH-HHHHH-HHHHH-HHHHH-HHHHH',
-        intro: '你是那个扛起家族期望的人。',
-        desc: '家庭期望感知强、沟通顺畅、独立自主。你是那种被父母寄予厚望也在努力回应的人。你很清楚父母为你牺牲了什么，所以你想用成绩来报答他们。你是家庭的骄傲，也是邻居口中别人家的孩子。但有时候你也会想：我为自己活了多少？'
-      },
-      {
-        name: '家庭叛逆者',
-        group: '家庭组',
-        pattern: 'LLLLL-LLLLL-LLLLL-LLLLL-LLLLL',
-        intro: '你和家庭的关系就像猫和狗，天生不对付。',
-        desc: '家庭期望与我无关、无话可说、渴望脱离掌控。你是那种想逃离家庭追求独立的人。每次回家都像打仗，父母的唠叨让你头疼，你只想早点开学或者工作后永远不回来。你觉得家人不理解你，也不想去理解他们。距离是你和家人最好的相处方式。'
-      },
-      {
-        name: '家庭和事佬',
-        group: '家庭组',
-        pattern: 'MMMMM-MMMMM-MMMMM-MMMMM-MMMMM',
-        intro: '你是家庭中的润滑剂，默默调和各方关系。',
-        desc: '被期望但不重、偶尔聊聊、独立但纠结。你在家庭中扮演着和稀泥的角色。父母吵架时你是调解员，亲戚聚会时你是气氛组。你很在乎家庭和谐，但也因此承担了很多不属于自己的压力。你习惯了照顾所有人的情绪，却常常忽略了自己的感受。'
-      },
-      {
-        name: '离家出走者',
-        group: '家庭组',
-        pattern: 'LHLHL-LHLHL-LHLHL-LHLHL-LHLHL',
-        intro: '你已经物理意义上离开了原生家庭。',
-        desc: '家庭压力大、无话可说、渴望独立。你是那种早早就搬出去很少回家的人。和家人住在一起让你窒息，所以你在经济独立后第一时间选择了离开。你偶尔会给家里打电话，但每次通话时间不超过三分钟。距离让你感到自由，但也让你偶尔感到愧疚。'
-      },
-      {
-        name: '妈宝/爸宝',
-        group: '家庭组',
-        pattern: 'HHHHH-HHHHH-HHHHH-HHHHH-HHHHH',
-        intro: '在父母眼里，你永远是个需要照顾的孩子。',
-        desc: '家庭期望感知极强、沟通顺畅、依赖家人。你是那种三十岁了还和父母住一起被照顾得无微不至的人。衣服是妈妈洗的，饭是爸爸做的，钱不够了伸手要。你还没准备好独立，或者说，你根本不想独立。在家庭的温室里，你觉得很安全。'
-      },
-      // 亲密组 (5)
-      {
-        name: '恋爱脑',
-        group: '亲密组',
-        pattern: 'HHHHH-HHHHH-HHHHH-HHHHH-HHHHH',
-        intro: '爱情是你的全部，你是那个为爱痴狂的人。',
-        desc: '安全感强、全情投入、渴望融合。你是那种一谈恋爱就上头、恨不得24小时黏在一起的人。你的眼里只有对方，消息必须秒回，约会必须天天有。你容易过度解读对方的行为，一条没有及时回复的消息就能让你胡思乱想一整天。分手对你来说是世界末日，需要很长很长时间才能走出来。'
-      },
-      {
-        name: '分手专家',
-        group: '亲密组',
-        pattern: 'LLLLL-LLLLL-LLLLL-LLLLL-LLLLL',
-        intro: '你的感情史丰富而短暂，你是情场老手。',
-        desc: '没有安全感、不想投入太多、边界清晰。你是那种害怕承诺、一言不合就分手的人。你谈过很多次恋爱，但每次都不超过三个月。你习惯用分手来解决问题，因为你觉得下一任可能会更好。其实你不是不想好好谈恋爱，只是害怕被伤害，所以先下手为强。'
-      },
-      {
-        name: '独行玩家',
-        group: '亲密组',
-        pattern: 'MLLML-MLLML-MLLML-MLLML-MLLML',
-        intro: '你享受单身生活，觉得一个人也挺好。',
-        desc: '安全感一般、投入但留后手、边界清晰。你是那种可以恋爱但不依赖、不给对方压力的人。你不会因为寂寞而随便开始一段感情，你觉得单身的日子其实也挺香的。你有自己的生活节奏，恋爱只是锦上添花而不是雪中送炭。这样的你反而往往能吸引到优质的追求者。'
-      },
-      {
-        name: '情感乞丐',
-        group: '亲密组',
-        pattern: 'HMHMH-MHMHM-MHMHM-MHMHM-MHMHM',
-        intro: '你在亲密关系中总是患得患失。',
-        desc: '安全感波动、投入但留后手。你是那种需要对方不断确认爱意、容易焦虑的人。你渴望被爱，但又害怕被爱。你的情绪经常被对方的一举一动牵引，忽上忽下忽冷忽热。你知道这样不好，但就是控制不住。学会爱自己，才能获得真正的安全感。'
-      },
-      {
-        name: '海王/海后',
-        group: '亲密组',
-        pattern: 'LHLHL-LHLHL-LHLHL-LHLHL-LHLHL',
-        intro: '池塘是你的游乐场，你享受多线操作的刺激。',
-        desc: '没有安全感、投入但留后手、渴望融合。你是那种同时和多个人保持暧昧、不想被绑定的人。你享受被多人追求的感觉，这让你感到自己的价值。但内心深处你其实是孤独的，你害怕真正被了解后的被抛弃，所以选择保持距离。'
-      },
-      // 内心组 (5)
-      {
-        name: '压抑容器',
-        group: '内心组',
-        pattern: 'HHHHH-HHHHH-HHHHH-HHHHH-HHHHH',
-        intro: '你是个情绪黑洞，吸收一切却从不释放。',
-        desc: '内在驱动、情绪全憋着、经常反思。你把所有情绪都往心里咽，从不表露。你是那种别人眼中的好人，永远温柔永远稳定。但只有你自己知道，内心早已超负荷运转。你需要学会释放情绪，否则迟早会崩溃。找个信任的人倾诉，或者通过运动写日记的方式宣泄，都是不错的方法。'
-      },
-      {
-        name: '定时炸弹',
-        group: '内心组',
-        pattern: 'LHLHL-LHLHL-LHLHL-LHLHL-LHLHL',
-        intro: '你的情绪像座火山，平时沉默，爆发时惊天动地。',
-        desc: '被动应付、情绪憋着、偶尔反思。你平时看起来很平静，但积累到一定程度就会爆发。你习惯隐忍，觉得忍一忍就过去了。但情绪不会消失，只会被埋藏。它们会在某个不经意的时刻突然爆发，让你和周围的人都措手不及。学会日常释放情绪，不要让负面情绪积累成火山。'
-      },
-      {
-        name: '行尸走肉',
-        group: '内心组',
-        pattern: 'LLLLL-LLLLL-LLLLL-LLLLL-LLLLL',
-        intro: '你对生活失去了感觉，像个没有感情的机器。',
-        desc: '被动应付、觉得自己是废物、无感。你对一切都提不起兴趣，活得像具行尸走肉。你机械地完成每天的任务，上班上学、吃饭睡觉，但一切都像是例行公事。你感受不到快乐，也感受不到悲伤。这种麻木其实是一种保护机制，是你的心灵在告诉你它需要休息。'
-      },
-      {
-        name: '慢性崩溃',
-        group: '内心组',
-        pattern: 'MHMHM-MHMHM-MHMHM-MHMHM-MHMHM',
-        intro: '你的情绪像心电图，高低起伏，不断波动。',
-        desc: '内外混合、时而崩溃。你是那种情绪起伏大、时而亢奋时而低落的人。你可能上午还兴致勃勃，下午就突然情绪低落。这种波动让你身边的人很难跟上你的节奏，你自己也很疲惫。尝试找到情绪波动的规律，通过冥想运动等方式稳定情绪。'
-      },
-      {
-        name: '情绪海绵',
-        group: '内心组',
-        pattern: 'HMHMH-MHMHM-MHMHM-MHMHM-MHMHM',
-        intro: '你像海绵一样吸收所有人的情绪，然后自己消化。',
-        desc: '内在驱动、时而压抑时而放飞。你是那种容易受他人影响、容易被带节奏的人。你是身边人的情绪加油站，大家都喜欢找你倾诉。但吸收了太多负面情绪后，你自己也会不堪重负。学会设立边界，你不需要为每个人的情绪负责。'
-      },
-      // 隐藏组 (2) - 通过特殊题目触发
-      {
-        name: '麻木者',
-        group: '隐藏组',
-        pattern: 'HHHHH-HHHH-LLLL-LLLL-LLLL',
-        intro: '你选择了麻木，用酒精麻痹自己的感受。',
-        desc: '外在表现积极，内心早已麻木。你学会了用小酒来逃避现实的痛苦，表面上一切OK，内心早已干涸。你是那种白天在职场上光鲜亮丽、谈笑风生，晚上回到家却只能对着天花板发呆的人。酒是你唯一的出口，喝了酒才能短暂地忘记那些压得你喘不过气的东西。偶尔喝一杯是情调，但每天都喝就变成了逃避。希望你能找到更健康的方式来面对生活的重压。',
-        hidden: true
-      },
-      {
-        name: '爆发者',
-        group: '隐藏组',
-        pattern: 'LLLLL-LLLLL-HHHH-HHHH-HHHH',
-        intro: '你在沉默中爆发，不在沉默中死亡，就在沉默中变态。',
-        desc: '长期压抑后的突然释放。你平时看起来人畜无害，但压抑到极限后会产生剧烈的反弹。你是那种别人眼中的老实人、好同事、好家人，但只有你自己知道内心积压了多少委屈和不满。你习惯了隐忍，习惯了退让，习惯了把所有的苦都自己扛。但压死骆驼的永远是最后一根稻草，等你忍无可忍爆发的时候，连你自己都会被吓到。学会日常表达不满，不要让情绪积累到临界点。',
-        hidden: true
-      }
-    ];
-
-    // ===== Dimension Names =====
-    const dimensionNames = {
-      'A1': '学习动机',
-      'A2': '学业自我效能',
-      'A3': '学业情绪压抑',
-      'C1': '晋升欲',
-      'C2': '工作生活平衡',
-      'C3': '职场人际',
-      'F1': '家庭期望压力',
-      'F2': '家庭沟通',
-      'F3': '家庭独立',
-      'I1': '依恋安全感',
-      'I2': '情感投入度',
-      'I3': '关系边界感',
-      'IN1': '欲望表达',
-      'IN2': '情感压抑',
-      'IN3': '自我反思'
-    };
-
-    // Model full names for display
-    const modelNames = {
-      'Academic': '学业模型',
-      'Career': '职场模型',
-      'Family': '家庭模型',
-      'Intimate': '亲密模型',
-      'Inner': '内心模型'
-    };
-
-    // Detailed dimension explanations with behavioral examples
-    const dimensionExplanations = {
-      'L': {
-        'A1': '被动应付型：学习对你来说是一种煎熬，没有内在动力，只是为了应付老师和家长而学。',
-        'A2': '自我效能低：你经常怀疑自己的能力，觉得自己不是学习的料，遇到困难就想放弃。',
-        'A3': '情绪压抑：你习惯了压抑学业带来的负面情绪，考砸了也装作无所谓的样子。',
-        'C1': '晋升摆烂：你对职级晋升完全提不起兴趣，觉得往上爬太累，不如就这样躺着。',
-        'C2': '工作即生活：你分不清工作和生活的界限，下班后还在想工作的事，休息也是工作。',
-        'C3': '人际压力大：职场人际关系让你感到紧张，不知道怎么和同事、上级相处。',
-        'F1': '期望无感：父母对你的期望你完全感受不到，或者觉得那跟我有什么关系。',
-        'F2': '无话可说：回家后和父母几乎没什么交流，各干各的，空气很安静。',
-        'F3': '渴望脱离：你强烈想要脱离家庭的掌控，渴望独立生活，自己做主。',
-        'I1': '被弃焦虑：恋爱中你总是担心被抛弃，需要对方不断确认才能安心。',
-        'I2': '情感保留：你在感情中不敢投入太多，随时准备着撤退，保护自己不受伤害。',
-        'I3': '渴望融合：你渴望和伴侣完全融为一体，没有边界，没有秘密。',
-        'IN1': '沉默欲望：你想要什么从来不说，觉得说了也没用，不如就憋着。',
-        'IN2': '情绪囤积：所有情绪你都憋在心里，越积越多，不知道怎么释放。',
-        'IN3': '拒绝复盘：你不喜欢回顾和反思，觉得过去的事情想那么多干嘛。'
-      },
-      'M': {
-        'A1': '混合动机：你的学习动力时有时无，有时候想学，有时候又觉得没意思。',
-        'A2': '效能波动：你的自我效能感不稳定，时而觉得自己能行，时而又觉得自己不行。',
-        'A3': '偶尔崩溃：遇到学业挫折时你偶尔会情绪崩溃，但大多数时候还能撑住。',
-        'C1': '晋升观望：你对晋升有一定的想法，但不够强烈，走一步看一步。',
-        'C2': '偶尔想摆：虽然大部分时间能工作生活分开，但偶尔也会想彻底摆烂。',
-        'C3': '凑合能处：职场人际关系你能应付，不算好也不算差，得过且过。',
-        'F1': '被期望无压：父母对你有期望，但你不会觉得有压力，顺其自然。',
-        'F2': '偶尔交流：回家后会和父母偶尔聊几句，但不会深入交流心里话。',
-        'F3': '独立纠结：你想独立，但又舍不得或者不敢完全脱离家庭。',
-        'I1': '信任波动：恋爱中你基本信任对方，但偶尔也会产生怀疑和不安。',
-        'I2': '留有后手：你在感情中会投入，但总是留一手，随时准备抽身。',
-        'I3': '平衡需求：你既想要亲密，也想要独立，在两者之间摇摆。',
-        'IN1': '偶尔表达：有时候你会说出自己的欲望，但大多数时候还是选择沉默。',
-        'IN2': '情绪摇摆：你的情绪时好时坏，有时候能释放，有时候又压抑下去。',
-        'IN3': '偶尔反思：你会偶尔回顾一下，但不会经常做深度反思。'
-      },
-      'H': {
-        'A1': '内在驱动：你真心热爱学习，对知识有好奇心，学习对你来说是一种享受。',
-        'A2': '效能自信：你对自己的学业能力有信心，相信努力会有回报。',
-        'A3': '情绪流动：你能感受到学业带来的情绪波动，并且能够表达和释放它们。',
-        'C1': '晋升渴望：你强烈渴望往上爬，有明确的职业目标和规划。',
-        'C2': '界限分明：你能把工作和生活分得很清楚，下班后不处理工作的事。',
-        'C3': '如鱼得水：你在职场中游刃有余，能够处理好各种人际关系。',
-        'F1': '期望感知：你很清楚父母对你的期望，并且愿意努力去达成。',
-        'F2': '沟通顺畅：你和父母沟通无障碍，什么话题都可以聊。',
-        'F3': '独立自主：你已经实现了心理上的独立，能够自己做决定。',
-        'I1': '安全依恋：你在恋爱中有安全感，相信对方，不会过度担心被抛弃。',
-        'I2': '全情投入：你愿意在感情中全身心投入，不留后手。',
-        'I3': '边界清晰：你和伴侣之间有清晰的边界，尊重彼此的隐私和空间。',
-        'IN1': '坦然表达：你能够坦然地说出自己想要什么，不掩饰自己的欲望。',
-        'IN2': '情绪流动：你的情绪能够自然流动，不会过度压抑或憋着。',
-        'IN3': '经常反思：你养成了定期反思的习惯，通过复盘来成长。'
-      }
-    };
+    // ===== Global Data Variables =====
+    let questions = [];
+    let personalityTypes = [];
+    let dimensionNames = {};
+    let modelNames = {};
+    let dimensionExplanations = {};
 
     // ===== State =====
     let currentQuestion = 0;
@@ -1442,13 +816,49 @@
     }
 
     // ===== Event Handlers =====
-    function startTest() {
+    async function startTest() {
       currentQuestion = 0;
       answers = [];
       hiddenMatch = false;
-      shuffledQuestions = shuffle(questions);
-      showScreen('test');
-      renderQuestion();
+
+      // Show loading state
+      document.getElementById('question-text').textContent = '正在加载题目数据...';
+      document.getElementById('options').innerHTML = '';
+
+      try {
+        const [questionsRes, personalitiesRes, dimensionsRes] = await Promise.all([
+          fetch('data/questions.json'),
+          fetch('data/personalities.json'),
+          fetch('data/dimensions.json')
+        ]);
+
+        const [questionsData, personalitiesData, dimensionsData] = await Promise.all([
+          questionsRes.json(),
+          personalitiesRes.json(),
+          dimensionsRes.json()
+        ]);
+
+        // Assign loaded data to global variables
+        window.questions = questionsData;
+        window.personalityTypes = personalitiesData;
+        window.dimensionNames = dimensionsData.dimensionNames;
+        window.modelNames = dimensionsData.modelNames;
+        window.dimensionExplanations = dimensionsData.dimensionExplanations;
+
+        // Also assign to local scope for compatibility
+        questions = window.questions;
+        personalityTypes = window.personalityTypes;
+        dimensionNames = window.dimensionNames;
+        modelNames = window.modelNames;
+        dimensionExplanations = window.dimensionExplanations;
+
+        shuffledQuestions = shuffle(questions);
+        showScreen('test');
+        renderQuestion();
+      } catch (err) {
+        console.error('Failed to load data:', err);
+        document.getElementById('question-text').textContent = '数据加载失败，请刷新重试';
+      }
     }
 
     function renderQuestion() {
@@ -1477,7 +887,7 @@
     function selectOption(score, btn) {
       answers[currentQuestion] = score;
 
-      // Check for hidden trigger (Q15 = "找个安静的角落独自喝点小酒")
+      // Check for hidden trigger (Q15 = "冥想或静坐")
       const q = shuffledQuestions[currentQuestion];
       if (q.id === 15 && score === 3) {
         hiddenMatch = true;
