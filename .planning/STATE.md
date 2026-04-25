@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-04-24)
 
 | Phase | Status | Plans | Notes |
 |-------|--------|-------|-------|
-| 1 | complete | 1/1 | ✓ |
+| 1 | modified | 1/1 | ✓ | 待修改：去除饮酒触发 + 数据分离 |
 
 ---
 
