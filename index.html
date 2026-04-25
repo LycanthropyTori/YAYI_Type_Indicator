@@ -521,6 +521,63 @@
       }
     }
 
+    /* Recommendation Section */
+    .recommendation-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+      animation: slideUp 0.6s ease;
+    }
+
+    .rec-column {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .rec-column-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .rec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rec-item {
+      padding: 10px;
+      background: var(--bg-gradient);
+      border-radius: var(--radius-sm);
+    }
+
+    .rec-book, .rec-tool {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .rec-reason, .rec-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+      .recommendation-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Footer */
     .footer {
       text-align: center;
@@ -583,22 +640,6 @@
         <div id="result-intro" class="result-intro"></div>
         <div id="result-desc" class="result-desc"></div>
         <div id="pattern-display" class="pattern-display"></div>
-      </div>
-      <div class="dimensions-card">
-        <h3 class="dimensions-title">15维度解析</h3>
-        <table class="dimensions-table">
-          <thead>
-            <tr>
-              <th>维度</th>
-              <th>名称</th>
-              <th>原始分</th>
-              <th>等级</th>
-              <th>解读</th>
-            </tr>
-          </thead>
-          <tbody id="dimensions-body">
-          </tbody>
-        </table>
       </div>
       <div class="result-footer">
         <button class="btn btn-secondary" onclick="restartTest()">重新测试</button>
@@ -729,7 +770,8 @@
               pattern: pattern,
               dimensionScores: dimensionScores,
               dimensionLevels: dimensionLevels,
-              similarity: hiddenSimilarity
+              similarity: hiddenSimilarity,
+              typeId: bestHiddenType.name
             };
           }
         }
@@ -769,7 +811,8 @@
           pattern: pattern,
           dimensionScores: dimensionScores,
           dimensionLevels: dimensionLevels,
-          similarity: bestSimilarity
+          similarity: bestSimilarity,
+          typeId: '迷途者'
         };
       }
 
@@ -778,7 +821,8 @@
         pattern: pattern,
         dimensionScores: dimensionScores,
         dimensionLevels: dimensionLevels,
-        similarity: bestSimilarity
+        similarity: bestSimilarity,
+        typeId: bestMatch.name
       };
     }
 
@@ -792,27 +836,54 @@
       // Format pattern with dashes
       const formattedPattern = result.pattern.replace(/(.{3})/g, '$1-').replace(/-$/, '');
       document.getElementById('pattern-display').textContent = '模式: ' + formattedPattern;
+      showScreen('result');
+      renderRecommendations(result.typeId);
+    }
 
-      // Render dimensions table
-      const dimOrder = ['A1', 'A2', 'A3', 'C1', 'C2', 'C3', 'F1', 'F2', 'F3', 'I1', 'I2', 'I3', 'IN1', 'IN2', 'IN3'];
-      const tbody = document.getElementById('dimensions-body');
-      tbody.innerHTML = '';
+    function renderRecommendations(typeId) {
+      const recs = window.recommendations;
+      if (!recs || !recs[typeId]) return;
 
-      dimOrder.forEach(dim => {
-        const score = result.dimensionScores[dim] || 0;
-        const level = result.dimensionLevels[dim] || 'M';
-        const explanation = dimensionExplanations[level][dim];
+      const r = recs[typeId];
 
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${dim}</td>
-          <td>${dimensionNames[dim]}</td>
-          <td>${score}</td>
-          <td><span class="dimension-level level-${level}">${level}</span></td>
-          <td>${explanation}</td>
-        `;
-        tbody.appendChild(tr);
-      });
+      // Remove existing recommendation section if present
+      const existing = document.getElementById('recommendation-section');
+      if (existing) existing.remove();
+
+      // Create recommendation section HTML
+      const recSection = document.createElement('div');
+      recSection.id = 'recommendation-section';
+      recSection.className = 'recommendation-section';
+
+      recSection.innerHTML = `
+        <div class="rec-column">
+          <h3 class="rec-column-title">哲学指引</h3>
+          <div class="rec-list">
+            ${r.philosophy.map(p => `
+              <div class="rec-item">
+                <div class="rec-book">${p.book}</div>
+                <div class="rec-reason">${p.reason}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="rec-column">
+          <h3 class="rec-column-title">玄学指引</h3>
+          <div class="rec-list">
+            ${r.metaphysics.map(m => `
+              <div class="rec-item">
+                <div class="rec-tool">${m.tool}</div>
+                <div class="rec-desc">${m.desc}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      // Insert between result-card and result-footer
+      const resultCard = document.querySelector('.result-card');
+      const resultFooter = document.querySelector('.result-footer');
+      resultCard.parentNode.insertBefore(recSection, resultFooter);
     }
 
     // ===== Event Handlers =====
@@ -826,16 +897,18 @@
       document.getElementById('options').innerHTML = '';
 
       try {
-        const [questionsRes, personalitiesRes, dimensionsRes] = await Promise.all([
+        const [questionsRes, personalitiesRes, dimensionsRes, recsRes] = await Promise.all([
           fetch('data/questions.json'),
           fetch('data/personalities.json'),
-          fetch('data/dimensions.json')
+          fetch('data/dimensions.json'),
+          fetch('data/recommendations.json')
         ]);
 
-        const [questionsData, personalitiesData, dimensionsData] = await Promise.all([
+        const [questionsData, personalitiesData, dimensionsData, recsData] = await Promise.all([
           questionsRes.json(),
           personalitiesRes.json(),
-          dimensionsRes.json()
+          dimensionsRes.json(),
+          recsRes.json()
         ]);
 
         // Assign loaded data to global variables
@@ -851,6 +924,8 @@
         dimensionNames = window.dimensionNames;
         modelNames = window.modelNames;
         dimensionExplanations = window.dimensionExplanations;
+
+        window.recommendations = recsData;
 
         shuffledQuestions = shuffle(questions);
         showScreen('test');
@@ -905,7 +980,6 @@
       } else {
         const result = calculateResult();
         renderResult(result);
-        showScreen('result');
       }
     }
 
