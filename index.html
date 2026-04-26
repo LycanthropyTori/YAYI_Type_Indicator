@@ -1108,7 +1108,7 @@
 
     function showGuidanceScreen() {
       renderGuidancePanel(window.currentTypeId);
-      showScreen('result');
+      document.getElementById('result-screen').classList.remove('active');
       document.getElementById('guidance-screen').classList.add('active');
     }
 
