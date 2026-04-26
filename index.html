@@ -1099,6 +1099,10 @@
     }
 
     function restartTest() {
+      document.querySelector('.result-card').style.display = '';
+      document.querySelector('.result-footer').style.display = '';
+      const guidanceScreen = document.getElementById('guidance-screen');
+      if (guidanceScreen) guidanceScreen.classList.remove('active');
       showScreen('intro');
     }
 
