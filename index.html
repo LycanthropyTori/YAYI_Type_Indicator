@@ -585,6 +585,99 @@
       color: var(--text-light);
       font-size: 12px;
     }
+
+    /* 指引按钮 */
+    .guidance-btn {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .guidance-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(108, 141, 113, 0.3);
+    }
+
+    /* 指引页面 */
+    .guidance-screen {
+      display: none;
+      padding: 30px 20px;
+      animation: fadeIn 0.4s ease;
+    }
+    .guidance-screen.active {
+      display: block;
+    }
+
+    /* 三栏网格 */
+    .guidance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    /* 指引图标 */
+    .guidance-icon {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+      box-shadow: var(--shadow-sm);
+    }
+    .guidance-icon:hover {
+      transform: scale(1.15);
+      box-shadow: 0 8px 32px rgba(108, 141, 113, 0.2);
+    }
+    .guidance-icon .icon-emoji {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .guidance-icon .icon-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* 指引内容面板 */
+    .guidance-content {
+      display: none;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 16px;
+      box-shadow: var(--shadow);
+      animation: slideUp 0.3s ease;
+    }
+    .guidance-content.active {
+      display: block;
+    }
+    .guidance-content h3 {
+      font-size: 18px;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border-color);
+    }
+    .guidance-content .rec-item {
+      background: var(--bg-gradient);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .guidance-content .rec-item:last-child {
+      margin-bottom: 0;
+    }
   </style>
 </head>
 <body>
@@ -642,8 +735,30 @@
         <div id="pattern-display" class="pattern-display"></div>
       </div>
       <div class="result-footer">
-        <button class="btn btn-secondary" onclick="restartTest()">重新测试</button>
+        <button class="btn btn-secondary" onclick="showGuidanceScreen()">查看指引</button>
       </div>
+    </div>
+
+    <!-- Guidance Screen -->
+    <div class="guidance-screen" id="guidance-screen">
+      <div class="guidance-grid">
+        <div class="guidance-icon" onclick="toggleGuidance('philosophy')">
+          <span class="icon-emoji">📚</span>
+          <span class="icon-label">哲学指引</span>
+        </div>
+        <div class="guidance-icon" onclick="toggleGuidance('psychology')">
+          <span class="icon-emoji">🧠</span>
+          <span class="icon-label">心理学指引</span>
+        </div>
+        <div class="guidance-icon" onclick="toggleGuidance('metaphysics')">
+          <span class="icon-emoji">🔮</span>
+          <span class="icon-label">玄学指引</span>
+        </div>
+      </div>
+      <div class="guidance-content" id="guidance-philosophy"></div>
+      <div class="guidance-content" id="guidance-psychology"></div>
+      <div class="guidance-content" id="guidance-metaphysics"></div>
+      <button class="guidance-btn" onclick="restartTest()">重新测试</button>
     </div>
 
     <div class="footer">
@@ -827,6 +942,7 @@
     }
 
     function renderResult(result) {
+      window.currentTypeId = result.typeId;
       document.getElementById('result-type-badge').textContent = result.type.group;
       document.getElementById('result-type-name').textContent = result.type.name;
       document.getElementById('result-match').textContent = Math.round(result.similarity) + '%';
@@ -837,7 +953,6 @@
       const formattedPattern = result.pattern.replace(/(.{3})/g, '$1-').replace(/-$/, '');
       document.getElementById('pattern-display').textContent = '模式: ' + formattedPattern;
       showScreen('result');
-      renderRecommendations(result.typeId);
     }
 
     function renderRecommendations(typeId) {
@@ -898,10 +1013,10 @@
 
       try {
         const [questionsRes, personalitiesRes, dimensionsRes, recsRes] = await Promise.all([
-          fetch('data/questions.json'),
-          fetch('data/personalities.json'),
-          fetch('data/dimensions.json'),
-          fetch('data/recommendations.json')
+          fetch('data/questions_debug.json'),
+          fetch('data/personalities_debug.json'),
+          fetch('data/dimensions_debug.json'),
+          fetch('data/recommendations_debug.json')
         ]);
 
         const [questionsData, personalitiesData, dimensionsData, recsData] = await Promise.all([
@@ -985,6 +1100,65 @@
 
     function restartTest() {
       showScreen('intro');
+    }
+
+    function showGuidanceScreen() {
+      renderGuidancePanel(window.currentTypeId);
+      showScreen('result');
+      document.getElementById('guidance-screen').classList.add('active');
+    }
+
+    function renderGuidancePanel(typeId) {
+      const recs = window.recommendations;
+      if (!recs || !recs[typeId]) return;
+
+      const r = recs[typeId];
+
+      // Clear all guidance content panels
+      document.getElementById('guidance-philosophy').innerHTML = '';
+      document.getElementById('guidance-psychology').innerHTML = '';
+      document.getElementById('guidance-metaphysics').innerHTML = '';
+
+      // Philosophy panel
+      const philContent = document.getElementById('guidance-philosophy');
+      philContent.innerHTML = `
+        <h3>哲学指引</h3>
+        ${r.philosophy.map(p => `
+          <div class="rec-item">
+            <div class="rec-book">${p.book}</div>
+            <div class="rec-reason">${p.reason}</div>
+          </div>
+        `).join('')}
+      `;
+
+      // Psychology panel
+      const psyContent = document.getElementById('guidance-psychology');
+      psyContent.innerHTML = `
+        <h3>心理学指引</h3>
+        ${(r.psychology || []).map(p => `
+          <div class="rec-item">
+            <div class="rec-book">${p.book}</div>
+            <div class="rec-reason">${p.reason}</div>
+          </div>
+        `).join('')}
+      `;
+
+      // Metaphysics panel
+      const metContent = document.getElementById('guidance-metaphysics');
+      metContent.innerHTML = `
+        <h3>玄学指引</h3>
+        ${r.metaphysics.map(m => `
+          <div class="rec-item">
+            <div class="rec-tool">${m.tool}</div>
+            <div class="rec-desc">${m.desc}</div>
+          </div>
+        `).join('')}
+      `;
+    }
+
+    function toggleGuidance(type) {
+      const panel = document.getElementById('guidance-' + type);
+      panel.classList.toggle('active');
     }
   </script>
 </body>
