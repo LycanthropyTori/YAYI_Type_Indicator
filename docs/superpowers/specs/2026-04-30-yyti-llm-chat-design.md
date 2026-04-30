@@ -308,9 +308,20 @@
 ```
 
 **注意**：`openChat(type, itemName, btn)` 的 `itemName` 从推荐项的书名/工具名中提取：
-- `"塞内卡《谈话录》"` → 提取 `"塞内卡"`（取 `《` 前的字符）
-- `"阿德勒《自卑与超越》"` → 提取 `"阿德勒"`
-- `"梅花易数"` → 直接使用（无 `《》` 时取原名）
+
+| type | 推荐项格式 | itemName 提取规则 | 示例 |
+|------|-----------|------------------|------|
+| philosophy | `"人物《作品》"` | 取 `《` 前的字符 | `"塞内卡《谈话录》"` → `"塞内卡"` |
+| psychology | `"人物《作品》"` | 取 `《` 前的字符 | `"阿德勒《自卑与超越》"` → `"阿德勒"` |
+| metaphysics | `"工具名"` | 直接使用 | `"梅花易数"` → `"梅花易数"` |
+
+```javascript
+function extractItemName(type, bookOrTool) {
+  if (type === 'metaphysics') return bookOrTool; // 直接返回工具名
+  const match = bookOrTool.match(/^(.+?)《/);     // 提取作者/人物名
+  return match ? match[1] : bookOrTool;
+}
+```
 
 ---
 
@@ -339,7 +350,7 @@ function openChat(type, itemName) {
 ```javascript
 function buildSystemPrompt(type, itemName) {
   const basePrompts = {
-    philosophy: `你是 ${itemName}，一位历史上的真实哲学家。
+    philosophy: `你扮演 ${itemName}，一位历史上的真实哲学家（代表作品见推荐书籍）。
 你以第一人称"我"来回答问题。
 当用户提问时，你结合你的著作、思想来给出建议。
 保持角色一致性，即使面对与你的思想不符的问题，也要以你的视角来回应。
@@ -352,7 +363,7 @@ function buildSystemPrompt(type, itemName) {
 当用户描述困扰时，先共情，再从你的专业角度给出洞见。
 保持温和但深刻的咨询风格。`,
 
-    metaphysics: `你是 ${itemName}领域的玄学大师。
+    metaphysics: `你是一位玄学大师，精通 ${itemName}。
 你以第一人称"我"来进行对话。
 当用户描述困扰时，你需要用玄学的方式（如起卦、看相、八字等）来解读。
 重要：每次回答的开头，你需要进行随机起卦或占卜，然后用卦象来解读用户的问题。
