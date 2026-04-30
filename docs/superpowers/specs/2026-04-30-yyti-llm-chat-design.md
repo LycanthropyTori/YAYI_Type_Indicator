@@ -601,6 +601,44 @@ async function streamAIResponse(messages, systemPrompt, turns) {
 
 ---
 
+## 本地测试方案
+
+### 方式 A：纯前端 UI 测试（无需后端）
+
+1. 直接用浏览器打开 `index.html`
+2. 完成测试，进入 guidance screen
+3. 点击推荐项的聊天按钮
+4. 观察 overlay 是否正常弹出
+
+**限制**：此时 AI 对话功能不可用（没有后端），但可以验证 UI 交互。
+
+### 方式 B：Wrangler 本地模拟
+
+```bash
+cd workers/chat
+npx wrangler dev --local
+```
+
+这会启动一个本地服务器（如 `http://127.0.0.1:8787`），Wrangler 会模拟 Workers 环境。
+
+然后修改 `index.html` 中的 `CHAT_API_URL` 为本地地址。
+
+**限制**：Wrangler 的本地模拟可能不完全等同于真实 Workers 环境。
+
+### 方式 C：使用本地 Node.js Server（推荐开发时使用）
+
+如果不想依赖 Cloudflare，可以用一个简单的本地 server 代替：
+
+```bash
+cd workers/chat
+# 启动本地 HTTP 服务器（需要先 npm install express）
+node server.js
+```
+
+Workers 的核心逻辑是接收请求并转发给 OpenAI API，本地 server 可以实现相同接口。
+
+---
+
 ## Units 接口定义
 
 ### Chat Overlay Unit

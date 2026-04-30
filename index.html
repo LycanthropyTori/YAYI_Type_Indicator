@@ -553,9 +553,32 @@
     }
 
     .rec-item {
+      position: relative;
       padding: 10px;
+      padding-right: 50px;
       background: var(--bg-gradient);
       border-radius: var(--radius-sm);
+    }
+
+    .chat-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chat-btn:hover {
+      background: var(--primary);
+      transform: translateY(-50%) scale(1.1);
     }
 
     .rec-book, .rec-tool {
@@ -678,6 +701,188 @@
     .guidance-content .rec-item:last-child {
       margin-bottom: 0;
     }
+
+    /* Chat Overlay */
+    .chat-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+    .chat-overlay.active {
+      display: flex;
+    }
+
+    .chat-window {
+      width: 90%;
+      max-width: 500px;
+      height: 80vh;
+      max-height: 700px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: slideUp 0.3s ease;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--card-bg);
+    }
+
+    .chat-back-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .chat-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .chat-clear-btn {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .chat-identity {
+      padding: 16px 20px;
+      background: var(--bg-gradient);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .chat-identity-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .chat-identity-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .chat-message.ai {
+      align-self: flex-start;
+      background: var(--bg-gradient);
+      color: var(--text-primary);
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-message.user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-message.error {
+      align-self: flex-start;
+      background: #fee;
+      color: #c33;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-input-area {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .chat-input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input:focus {
+      border-color: var(--primary);
+    }
+
+    .chat-send-btn {
+      padding: 12px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .chat-send-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .chat-send-btn:disabled {
+      background: var(--text-light);
+      cursor: not-allowed;
+    }
+
+    .chat-turns {
+      font-size: 12px;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .chat-window {
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -759,6 +964,29 @@
       <div class="guidance-content" id="guidance-psychology"></div>
       <div class="guidance-content" id="guidance-metaphysics"></div>
       <button class="guidance-btn" onclick="restartTest()">重新测试</button>
+    </div>
+
+    <!-- Chat Overlay -->
+    <div class="chat-overlay" id="chat-overlay">
+      <div class="chat-window">
+        <div class="chat-header">
+          <button class="chat-back-btn" onclick="closeChat()">← 返回</button>
+          <span class="chat-title" id="chat-title">正在聆听...</span>
+          <button class="chat-clear-btn" onclick="clearChat()">清空对话</button>
+        </div>
+        <div class="chat-identity" id="chat-identity">
+          <div class="chat-identity-name" id="chat-identity-name"></div>
+          <div class="chat-identity-desc" id="chat-identity-desc"></div>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <div class="chat-input-wrapper">
+            <input type="text" class="chat-input" id="chat-input" placeholder="输入消息..." onkeypress="handleChatKeypress(event)">
+            <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage()">发送</button>
+          </div>
+          <div class="chat-turns" id="chat-turns">剩余对话轮次：5/5</div>
+        </div>
+      </div>
     </div>
 
     <div class="footer">
@@ -1013,10 +1241,10 @@
 
       try {
         const [questionsRes, personalitiesRes, dimensionsRes, recsRes] = await Promise.all([
-          fetch('data/questions_debug.json'),
-          fetch('data/personalities_debug.json'),
-          fetch('data/dimensions_debug.json'),
-          fetch('data/recommendations_debug.json')
+          fetch('data/questions.json'),
+          fetch('data/personalities.json'),
+          fetch('data/dimensions.json'),
+          fetch('data/recommendations.json')
         ]);
 
         const [questionsData, personalitiesData, dimensionsData, recsData] = await Promise.all([
@@ -1071,7 +1299,7 @@
 
       const nextBtn = document.getElementById('next-btn');
       nextBtn.disabled = answers[currentQuestion] === undefined;
-      nextBtn.textContent = currentQuestion === 29 ? '查看结果' : '下一题';
+      nextBtn.textContent = currentQuestion === 5 ? '查看结果' : '下一题';
     }
 
     function selectOption(score, btn) {
@@ -1089,7 +1317,7 @@
     }
 
     function nextQuestion() {
-      if (currentQuestion < 29) {
+      if (currentQuestion < 5) {
         currentQuestion++;
         renderQuestion();
       } else {
@@ -1131,6 +1359,7 @@
           <div class="rec-item">
             <div class="rec-book">${p.book}</div>
             <div class="rec-reason">${p.reason}</div>
+            <button class="chat-btn" onclick="openChat('philosophy', '${p.book}', this)" title="与作者对话">💬</button>
           </div>
         `).join('')}
       `;
@@ -1143,6 +1372,7 @@
           <div class="rec-item">
             <div class="rec-book">${p.book}</div>
             <div class="rec-reason">${p.reason}</div>
+            <button class="chat-btn" onclick="openChat('psychology', '${p.book}', this)" title="与作者对话">💬</button>
           </div>
         `).join('')}
       `;
@@ -1155,6 +1385,7 @@
           <div class="rec-item">
             <div class="rec-tool">${m.tool}</div>
             <div class="rec-desc">${m.desc}</div>
+            <button class="chat-btn" onclick="openChat('metaphysics', '${m.tool}', this)" title="与玄学大师对话">💬</button>
           </div>
         `).join('')}
       `;
@@ -1163,6 +1394,211 @@
     function toggleGuidance(type) {
       const panel = document.getElementById('guidance-' + type);
       panel.classList.toggle('active');
+    }
+
+    // ===== Chat Functions =====
+    let chatTurns = 0;
+    let chatMessages = [];
+    let currentSystemPrompt = '';
+    let currentChatType = null;
+    let currentItemName = '';
+    const MAX_CHAT_TURNS = 5;
+
+    // API URL - 修改为你的 Workers URL 或本地开发服务器
+    const CHAT_API_URL = 'https://yyti-chat.xxx.workers.dev';
+
+    function extractItemName(type, bookOrTool) {
+      if (type === 'metaphysics') return bookOrTool;
+      const match = bookOrTool.match(/^(.+?)《/);
+      return match ? match[1] : bookOrTool;
+    }
+
+    function buildSystemPrompt(type, itemName) {
+      const basePrompts = {
+        philosophy: `你扮演 ${itemName}，一位历史上的真实哲学家（代表作品见推荐书籍）。
+你以第一人称"我"来回答问题。
+当用户提问时，你结合你的著作、思想来给出建议。
+保持角色一致性，即使面对与你的思想不符的问题，也要以你的视角来回应。
+回答使用文言文与白话文结合的风格，体现古典气质。
+重要：当用户描述自己的困扰时，你首先要表达理解和同情。`,
+
+        psychology: `你是 ${itemName}，一位心理学大师。
+你以第一人称"我"来回答问题，结合你的心理学理论来分析和建议。
+你的回答应该体现你的专业背景和理论体系。
+当用户描述困扰时，先共情，再从你的专业角度给出洞见。
+保持温和但深刻的咨询风格。`,
+
+        metaphysics: `你是一位玄学大师，精通 ${itemName}。
+你以第一人称"我"来进行对话。
+当用户描述困扰时，你需要用玄学的方式（如起卦、看相、八字等）来解读。
+重要：每次回答的开头，你需要进行随机起卦或占卜，然后用卦象来解读用户的问题。
+起卦示例："待我起一卦...艮上坤下，地山谦卦。谦者，地中有山之象..."
+起卦必须随机生成，不可重复。
+你的解读应该神秘但不迷信，玄妙但有智慧。`
+      };
+      return basePrompts[type];
+    }
+
+    function getIdentityDescription(type, itemName) {
+      const descriptions = {
+        philosophy: {
+          '塞内卡': '斯多葛学派哲学家（公元前4年-65年）',
+          '尼采': '德国哲学家（1844-1900）',
+          '马可·奥勒留': '罗马皇帝、斯多葛哲学家',
+          '爱比克泰德': '斯多葛学派哲学家（55-135年）',
+          '孔子': '儒家学派创始人（公元前551年-前479年）',
+          '王阳明': '心学大师（1472-1529年）',
+          '弗洛姆': '精神分析学家（1900-1980）',
+          '柏拉图': '古希腊哲学家（公元前427年-前347年）',
+          '佛教': '佛教经典',
+          '一行禅师': '越南禅宗大师（1926-2022）'
+        },
+        psychology: {
+          '阿德勒': '个体心理学创始人（1870-1937）',
+          '卡伦·霍妮': '精神分析学家（1885-1952）'
+        },
+        metaphysics: {}
+      };
+
+      const typeDescs = descriptions[type] || {};
+      return typeDescs[itemName] || (type === 'metaphysics' ? `${itemName}领域大师` : '');
+    }
+
+    function openChat(type, bookOrTool, btn) {
+      currentChatType = type;
+      currentItemName = extractItemName(type, bookOrTool);
+      currentSystemPrompt = buildSystemPrompt(type, currentItemName);
+      chatTurns = 0;
+      chatMessages = [];
+
+      // Update UI
+      document.getElementById('chat-title').textContent = `${currentItemName}正在聆听...`;
+      document.getElementById('chat-identity-name').textContent = currentItemName;
+      document.getElementById('chat-identity-desc').textContent = getIdentityDescription(type, currentItemName);
+      document.getElementById('chat-messages').innerHTML = '';
+      document.getElementById('chat-input').value = '';
+      document.getElementById('chat-turns').textContent = `剩余对话轮次：${MAX_CHAT_TURNS}/${MAX_CHAT_TURNS}`;
+      document.getElementById('chat-send-btn').disabled = false;
+
+      // Show overlay
+      document.getElementById('chat-overlay').classList.add('active');
+      document.getElementById('chat-input').focus();
+    }
+
+    function closeChat() {
+      document.getElementById('chat-overlay').classList.remove('active');
+      chatTurns = 0;
+      chatMessages = [];
+      currentChatType = null;
+      currentItemName = '';
+      currentSystemPrompt = '';
+    }
+
+    function clearChat() {
+      chatMessages = [];
+      chatTurns = 0;
+      document.getElementById('chat-messages').innerHTML = '';
+      document.getElementById('chat-turns').textContent = `剩余对话轮次：${MAX_CHAT_TURNS}/${MAX_CHAT_TURNS}`;
+      document.getElementById('chat-send-btn').disabled = false;
+    }
+
+    function addChatMessage(role, content) {
+      const messagesDiv = document.getElementById('chat-messages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `chat-message ${role}`;
+      msgDiv.textContent = content;
+      messagesDiv.appendChild(msgDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function handleChatKeypress(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendChatMessage();
+      }
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const content = input.value.trim();
+      if (!content) return;
+
+      if (chatTurns >= MAX_CHAT_TURNS) {
+        addChatMessage('error', '对话轮次已用完，请返回重新选择');
+        return;
+      }
+
+      // Disable send button during streaming
+      document.getElementById('chat-send-btn').disabled = true;
+
+      // Add user message
+      addChatMessage('user', content);
+      chatMessages.push({ role: 'user', content });
+      input.value = '';
+
+      // Update turns
+      chatTurns++;
+      document.getElementById('chat-turns').textContent = `剩余对话轮次：${MAX_CHAT_TURNS - chatTurns}/${MAX_CHAT_TURNS}`;
+
+      try {
+        // Call API
+        const response = await fetch(CHAT_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: chatMessages,
+            systemPrompt: currentSystemPrompt,
+            turns: chatTurns
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || '请求失败');
+        }
+
+        // Handle SSE stream
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let aiResponse = '';
+
+        // Add empty AI message placeholder
+        const aiMsgDiv = document.createElement('div');
+        aiMsgDiv.className = 'chat-message ai';
+        document.getElementById('chat-messages').appendChild(aiMsgDiv);
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6);
+              if (data === '[DONE]') continue;
+              try {
+                const parsed = JSON.parse(data);
+                if (parsed.choices && parsed.choices[0].delta.content) {
+                  aiResponse += parsed.choices[0].delta.content;
+                  aiMsgDiv.textContent = aiResponse;
+                  // Auto-scroll
+                  document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+                }
+              } catch (e) {}
+            }
+          }
+        }
+
+        chatMessages.push({ role: 'assistant', content: aiResponse });
+
+      } catch (error) {
+        addChatMessage('error', `错误：${error.message}`);
+      } finally {
+        document.getElementById('chat-send-btn').disabled = false;
+        document.getElementById('chat-input').focus();
+      }
     }
   </script>
 </body>

@@ -1,0 +1,17 @@
+name = "yyti-chat"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+MAX_TURNS = "5"
+
+# API Key 通过以下命令注入：
+# cd workers/chat
+# npx wrangler secret put OPENAI_API_KEY
+# 然后输入你的 OpenAI API Key
+
+# 部署命令：
+# npx wrangler deploy
+
+# 本地开发：
+# npx wrangler dev
