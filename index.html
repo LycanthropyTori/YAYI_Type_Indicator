@@ -1404,8 +1404,10 @@
     let currentItemName = '';
     const MAX_CHAT_TURNS = 5;
 
-    // API URL - 修改为你的 Workers URL 或本地开发服务器
-    const CHAT_API_URL = 'https://yyti-chat.xxx.workers.dev';
+    // API URL - 部署 Worker 后填入 Worker 地址
+    const CHAT_API_URL = 'http://localhost:8788';
+    const MODEL_NAME = 'qwen/qwen3-coder:free';
+    const API_KEY = ''; // 留空则使用 OpenRouter 默认免费额度，或填入你的 sk-or-v1-xxx
 
     function extractItemName(type, bookOrTool) {
       if (type === 'metaphysics') return bookOrTool;
@@ -1528,7 +1530,7 @@
         return;
       }
 
-      // Disable send button during streaming
+      // Disable send button during request
       document.getElementById('chat-send-btn').disabled = true;
 
       // Add user message
@@ -1540,8 +1542,14 @@
       chatTurns++;
       document.getElementById('chat-turns').textContent = `剩余对话轮次：${MAX_CHAT_TURNS - chatTurns}/${MAX_CHAT_TURNS}`;
 
+      // Add loading indicator
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'chat-message ai loading';
+      loadingDiv.textContent = '思考中...';
+      document.getElementById('chat-messages').appendChild(loadingDiv);
+
       try {
-        // Call API
+        // Call API (non-streaming, receives complete response)
         const response = await fetch(CHAT_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1552,46 +1560,27 @@
           })
         });
 
+        // Remove loading indicator
+        loadingDiv.remove();
+
         if (!response.ok) {
           const error = await response.json();
           throw new Error(error.error || '请求失败');
         }
 
-        // Handle SSE stream
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let aiResponse = '';
+        // Parse JSON response (complete response, no streaming)
+        const data = await response.json();
 
-        // Add empty AI message placeholder
+        // Display complete response at once
+        const aiResponse = data.content || '';
+
         const aiMsgDiv = document.createElement('div');
         aiMsgDiv.className = 'chat-message ai';
+        aiMsgDiv.textContent = aiResponse;
         document.getElementById('chat-messages').appendChild(aiMsgDiv);
 
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          const chunk = decoder.decode(value);
-          const lines = chunk.split('\n');
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6);
-              if (data === '[DONE]') continue;
-              try {
-                const parsed = JSON.parse(data);
-                if (parsed.choices && parsed.choices[0].delta.content) {
-                  aiResponse += parsed.choices[0].delta.content;
-                  aiMsgDiv.textContent = aiResponse;
-                  // Auto-scroll
-                  document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
-                }
-              } catch (e) {}
-            }
-          }
-        }
-
         chatMessages.push({ role: 'assistant', content: aiResponse });
+        document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
 
       } catch (error) {
         addChatMessage('error', `错误：${error.message}`);

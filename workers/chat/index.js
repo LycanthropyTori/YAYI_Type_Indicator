@@ -63,26 +63,26 @@ export default {
     }
 
     try {
-      // 流式调用 OpenAI API
-      const stream = await fetch('https://api.openai.com/v1/chat/completions', {
+      // 非流式调用 OpenAI API
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${env.OPENAI_API_KEY}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'gpt-4o',
+          model: 'openai/gpt-oss-20b',
           messages: [
             { role: 'system', content: systemPrompt },
             ...messages
           ],
-          stream: true
+          stream: false
         })
       });
 
       // API 错误处理
-      if (!stream.ok) {
-        const errorBody = await stream.text();
+      if (!response.ok) {
+        const errorBody = await response.text();
         console.error('OpenAI API error:', errorBody);
         return new Response(JSON.stringify({
           error: 'AI 服务暂时不可用，请稍后重试'
@@ -92,11 +92,15 @@ export default {
         });
       }
 
-      // 流式返回
-      return new Response(stream.body, {
+      // 解析完整响应
+      const data = await response.json();
+      const messageContent = data.choices?.[0]?.message?.content || '';
+      const filteredContent = filterReasoning(messageContent);
+
+      // 返回 JSON 完整响应
+      return new Response(JSON.stringify({ content: filteredContent }), {
         headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
+          'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         }
       });
@@ -112,3 +116,19 @@ export default {
     }
   }
 };
+
+// 过滤 reasoning 内容
+function filterReasoning(content) {
+  if (!content) return '';
+
+  // 过滤 <reasoning>...</reasoning> 标签包裹的内容
+  content = content.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '');
+
+  // 过滤 <!-- reasoning --> 注释内容
+  content = content.replace(/<!--[\s\S]*?-->/gi, '');
+
+  // 过滤 <think>...</think> 标签包裹的内容
+  content = content.replace(/<think>[\s\S]*?<\/think>/gi, '');
+
+  return content.trim();
+}
