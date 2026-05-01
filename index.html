@@ -1045,7 +1045,7 @@
       Object.keys(dimensionScores).forEach(dim => {
         const score = dimensionScores[dim];
         if (score <= 3) dimensionLevels[dim] = 'L';
-        else if (score <= 4) dimensionLevels[dim] = 'M';
+        else if (score <= 6) dimensionLevels[dim] = 'M';
         else dimensionLevels[dim] = 'H';
       });
 
@@ -1141,8 +1141,8 @@
         bestSimilarity = (1 - bestDistance / Math.sqrt(27)) * 100;
       }
 
-      // Fallback personality if similarity < 60%
-      if (bestSimilarity < 60) {
+      // Fallback personality if similarity < 10%
+      if (bestSimilarity < 10) {
         return {
           type: {
             name: '迷途者',
