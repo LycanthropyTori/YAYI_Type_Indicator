@@ -1299,7 +1299,7 @@
 
       const nextBtn = document.getElementById('next-btn');
       nextBtn.disabled = answers[currentQuestion] === undefined;
-      nextBtn.textContent = currentQuestion === 5 ? '查看结果' : '下一题';
+      nextBtn.textContent = currentQuestion === 29 ? '查看结果' : '下一题';
     }
 
     function selectOption(score, btn) {
@@ -1317,7 +1317,7 @@
     }
 
     function nextQuestion() {
-      if (currentQuestion < 5) {
+      if (currentQuestion < 29) {
         currentQuestion++;
         renderQuestion();
       } else {
